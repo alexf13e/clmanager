@@ -50,7 +50,7 @@ int main()
     //read the result back, which should be 30 (buffer1 (1) + buffer2 (2) = 3, then multiply by magicNumberFromCommonDef
     //which is 10 to get 30)
     float* values = new float[N];
-    CLManager::readBuffer(b_buffer1, 1, values);
+    CLManager::readBuffer(b_buffer1, N, values);
     std::cout << std::to_string(values[0]) << std::endl;
     delete[] values;
 
@@ -59,7 +59,7 @@ int main()
     //so buffer1 is 30 * 12345 = 370350
     float singleValue;
     CLManager::runKernel(k_mulBuffers);
-    CLManager::readBuffer(b_buffer1, 10, &singleValue);
+    CLManager::readBuffer(b_buffer1, 1, &singleValue, 10);
     std::cout << std::to_string(singleValue) << std::endl;
 
     return 0;
