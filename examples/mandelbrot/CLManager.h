@@ -2,8 +2,6 @@
 #ifndef CL_MANAGER_H
 #define CL_MANAGER_H
 
-#include "CL/cl.h"
-
 #include <iostream>
 #include <unordered_map>
 #include <string>
