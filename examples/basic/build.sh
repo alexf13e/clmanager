@@ -2,7 +2,7 @@
 
 output=build/clmanager_example
 sources="./*.cpp"
-includes="-I ../_headers"
+includes=""
 libs="-lOpenCL"
 
 g++ -Wall -Wextra -o $output $sources $includes $libs
