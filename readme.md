@@ -1,5 +1,5 @@
 # CL Manager
-CLManager aims to be an easy to use, single* header file for using OpenCL with C++ on Windows and Linux, with support
+CLManager aims to be an easy to use, single* header wrapper for using OpenCL with C++ on Windows and Linux, with support
 for OpenGL interop (only X11 is supported for Linux).
 
 It manages a lot of the tedium of working with OpenCL (creating and managing objects for devices, command queue,
@@ -16,6 +16,14 @@ is split into seperate files (mainly to prevent issues with the `#define`s in `K
 is optional, see the usage section for more details.
 
 ## Usage
+`CLManager.h` relies on the OpenCL C++ bindings. The required header and library files can be found here:
+https://github.com/KhronosGroup/OpenCL-SDK/releases.
+
+If using Linux, install the relevant packages for your hardware, as they should provide these files. See
+https://wiki.archlinux.org/title/General-purpose_computing_on_graphics_processing_units.
+
+The OpenGL interop relies on GLFW: https://www.glfw.org/
+
 `#include CLManager.h` anywhere you wish to interact with OpenCL. In **one** .cpp file which includes `CLManager.h`,
 `#define CL_MANAGER_IMPL` before the include to create the definitions of the functions.
 
@@ -26,14 +34,6 @@ called, as it will provide the kernel source code which is needed for initialisa
 If using another method for writing kernel code (e.g. separate .cl files), then the kernel code needs to be read into a
 string and passed to `CLManager::init()`. `kernels.h`, `kernels.cpp` and `KernelRString.h` are then not required.
 
-`CLManager.h` relies on the OpenCL C++ bindings. The required header and library files can be found here:
-https://github.com/KhronosGroup/OpenCL-SDK/releases.
-
-If using Linux, install the relevant packages for your hardware, as they should provide these files. See
-https://wiki.archlinux.org/title/General-purpose_computing_on_graphics_processing_units.
-
-The OpenGL interop relies on GLFW: https://www.glfw.org/
-
 ## Examples
 There are two example projects in the examples folder.
 
@@ -41,8 +41,6 @@ There are two example projects in the examples folder.
 The "basic" example shows initialisation of OpenCL, creation of buffers and kernels, running the kernels and reading
 back values from buffers. `main.cpp` and `kernels.cpp` respectively contain the code for setting up running kernels,
 and the kernel code itself.
-
-If OpenCL has been installed 
 
 ### Mandelbrot
 The Mandelbrot example shows how a buffer can be shared between OpenCL and OpenGL. The kernel calculates sample values,
@@ -65,12 +63,10 @@ include and library directories to point wherever you have GLFW/Glad/OpenCL inst
 stated in the readme.
 
 ## Notes and Credits
-* The method of writing kernel code directly in .cpp files with some degree of syntax highlighting is taken from
-ProjectPhysX's OpenCL-Wrapper library, which is worth looking at as an alternative to my library:
-https://github.com/ProjectPhysX/OpenCL-Wrapper
 * OpenGL interop is enabled by writing `#define CL_MANAGER_GL` in **one** .cpp file; it is best to place it next to the
 definition for `CL_MANAGER_IMPL`. The order of the definitions does not matter, as long as they are before the include.
 * Device and context creation is handled automatically when `CLManager::init()` is called. A list of devices on your
 computer will be searched until one is found which supports OpenCL and - if requested - memory sharing with OpenGL. If
 more control over the device being used is required, modify the `createDevice` functions. Note that there are two
 versions of this function; one each for when OpenGL is and is not being used.
+* An alternative good helper library for OpenCL can be found here, which inspired the creation of mine: https://github.com/ProjectPhysX/OpenCL-Wrapper
